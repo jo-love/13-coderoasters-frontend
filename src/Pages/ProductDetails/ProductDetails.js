@@ -4,12 +4,12 @@ import Card from "../ProductList/Components/CardList/Card";
 import "./ProductDetails.scss";
 import "../ProductList/Components/CardList/CardList.scss";
 
-const APIProductDetails = "http://10.58.1.167:8000/products";
-const APIGroundTypes = "http://10.58.1.167:8000/products/grounds";
-const APIAddToCart = "http://10.58.1.167:8000/cart";
-const APISimilarCoffees = "http://10.58.1.167:8000/products/similar";
+const APIProductDetails = "http://www.mgm-dev.com:9000/products";
+const APIGroundTypes = "http://www.mgm-dev.com:9000/products/grounds";
+const APIAddToCart = "http://www.mgm-dev.com:9000/cart";
+const APISimilarCoffees = "http://www.mgm-dev.com:9000/products/similar";
 
-export default class ProductDetails extends React.Component {
+export default class ProductDetails extends Component {
   constructor() {
     super();
     this.state = {

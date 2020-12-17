@@ -1,0 +1,72 @@
+.MainPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .headerWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 90px;
+    width: 100%;
+    height: 100vh;
+    background-image: url("./coffee.jpeg");
+    background-size: 100%;
+
+    .offer {
+      display: flex;
+      margin-bottom: 16px;
+      background: transparent;
+
+      .moneyIcon {
+        margin-right: 7px;
+        background: transparent;
+      }
+
+      p {
+        font-size: 18px;
+        font-weight: 500;
+        background: transparent;
+      }
+    }
+
+    span {
+      font-size: 12px;
+      background: transparent;
+    }
+
+    .mainHeader {
+      width: 520px;
+      margin: 40px 0;
+      text-align: center;
+      background: transparent;
+
+      h1 {
+        font-family: "Fira Sans", sans-serif;
+        font-size: 81px;
+        background: transparent;
+      }
+    }
+
+    .mainDescription {
+      margin-bottom: 20px;
+      text-align: center;
+      background: transparent;
+
+      p {
+        font-size: 24px;
+        background: transparent;
+      }
+    }
+
+    button {
+      width: 160px;
+      height: 44px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 15px;
+      color: #ffffff;
+      background-color: #f53c32;
+    }
+  }
+}
