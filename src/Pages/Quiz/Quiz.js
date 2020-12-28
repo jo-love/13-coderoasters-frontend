@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { KM_URL } from "../../config";
+import { APIQuiz } from "../../config";
 import QuizComponents from "./QuizComponents";
 import "./Quiz.scss";
 
@@ -22,7 +22,7 @@ class Quiz extends Component {
       },
       () => {
         if (this.state.answerIdx === 5) {
-          fetch(`${KM_URL}/products/recommend`, {
+          fetch(`${APIQuiz}`, {
             method: "POST",
             body: JSON.stringify(this.state),
             headers: {

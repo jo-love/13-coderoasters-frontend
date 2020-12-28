@@ -47,13 +47,13 @@
 
 ### ProductList Page(조연정)
 
-- 상품 다양한 카테코리별 필터와 최신순,가격순, 신상품순 sorting  api호출하여 구현
+- 상품 다양한 카테고리별 필터와 최신순,가격순, 신상품순 sorting  api호출하여 구현
 - 필터,솔팅 반영하여 pagination 구현
 
 ### ProductDetails Page(김보현)
 
+- 디테일 페이지, 장바구니 컴포넌트 구현 
 - 동적라우팅을 이용하여 상세페이지로 이동기능 구현
-- 
 
 # Reference
 

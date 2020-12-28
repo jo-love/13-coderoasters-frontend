@@ -1,4 +1,4 @@
-@import "../../Styles/common.scss";
+// @import "../../Styles/common.scss";
 
 .Login {
   width: 480px;
@@ -30,10 +30,10 @@
         width: 240px;
         height: 72px;
         border: 0;
-        $default-light-grey: rgb(233, 233, 233);
+        // $default-light-grey: rgb(233, 233, 233);
         border-bottom: 4px solid #f0f0f0;
         outline: 0;
-        background-color: $default-white;
+        // background-color: $default-white;
         text-align: center;
         font-family: Fira-sans;
         font-size: 28px;
@@ -44,10 +44,10 @@
         width: 240px;
         height: 72px;
         border: 0;
-        $default-light-grey: rgb(233, 233, 233);
-        border-bottom: 4px solid $default-black;
+        // $default-light-grey: rgb(233, 233, 233);
+        // border-bottom: 4px solid $default-black;
         outline: 0;
-        background-color: $default-white;
+        // background-color: $default-white;
         text-align: center;
         font-family: Fira-sans;
         font-size: 28px;
@@ -75,9 +75,9 @@
         font-weight: 200;
       }
 
-      input:focus {
-        border-bottom: 1px solid $default-black;
-      }
+      // input:focus {
+      //   border-bottom: 1px solid $default-black;
+      // }
 
       .characterCheck {
         width: 444px;
@@ -91,19 +91,15 @@
         height: 44px;
         padding: 6px 12px;
         margin: 25px 1px 15px 1px;
-        color: $default-white;
+        // color: $default-white;
         font-family: Fira-sans;
         font-weight: 900;
         border: 0;
         border-radius: 4px;
-        background-color: $default-red;
+        // background-color: $default-red;
         cursor: pointer;
       }
 
-      // .g-signin2 div {
-      //   font-weight: bold;
-      //   outline: none;
-      // }
       .googleLogin {
         width: 455px;
         height: 44px;

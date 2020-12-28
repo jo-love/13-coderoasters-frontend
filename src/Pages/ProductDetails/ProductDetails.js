@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import Cart from "../../Components/Cart/Cart";
 import Card from "../ProductList/Components/CardList/Card";
+import { APIProductDetails } from "../../config";
+import { APIGroundTypes } from "../../config";
+import { APIAddToCart } from "../../config";
+import { APISimilarCoffees } from "../../config";
 import "./ProductDetails.scss";
-import "../ProductList/Components/CardList/CardList.scss";
-
-const APIProductDetails = "http://www.mgm-dev.com:9000/products";
-const APIGroundTypes = "http://www.mgm-dev.com:9000/products/grounds";
-const APIAddToCart = "http://www.mgm-dev.com:9000/cart";
-const APISimilarCoffees = "http://www.mgm-dev.com:9000/products/similar";
 
 export default class ProductDetails extends Component {
   constructor() {
@@ -28,11 +26,9 @@ export default class ProductDetails extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props, "4++4+4+4+4+4+4+4+4+4+4+");
     fetch(APIProductDetails + `/${this.props.match.params.id}`)
       .then((res) => res.json())
       .then((res) => {
-        // console.log("product details: 000000000000", res);
         this.setState({
           productSummary: res.foundProduct,
           coffee: res.foundProduct.coffees,

@@ -1,9 +1,54 @@
 import React, { Component } from "react";
 import Card from "../CardList/Card";
-import { KM_URL } from "../../../../../src/config";
+import { APIProductList } from "../../../../../src/config";
 import { withRouter } from "react-router-dom";
-import "./CardList.scss";
+import styled from "styled-components";
 
+const CardListBox = styled.main`
+  width: 75%;
+  .rightBox {
+    ${({ theme }) => theme.spacebetween};
+    align-items: baseline;
+    div {
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+    }
+    .rightText {
+      padding-bottom: 45px;
+      select {
+        width: 150px;
+        height: 40px;
+        margin-left: 20px;
+        padding-left: 10px;
+        border: ${({ theme }) => theme.border};
+        border-radius: 5px;
+
+        option {
+          padding: 10px 0;
+        }
+      }
+    }
+  }
+  .listSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 30px;
+  }
+  .btnWrapper {
+    text-align: center;
+
+    button {
+      width: 140px;
+      height: 43px;
+      margin: 50px 0;
+      border-radius: 5px;
+      color: ${({ theme }) => theme.colors.white};
+      background-color: ${({ theme }) => theme.colors.btnColor};
+      curson: pointer;
+    }
+  }
+`;
 class CardList extends Component {
   constructor() {
     super();
@@ -16,14 +61,24 @@ class CardList extends Component {
     };
   }
 
+  componentDidMount() {
+    fetch(`${APIProductList}`)
+      .then((res) => res.json())
+      .then((res) =>
+        this.setState({
+          filteredCoffeeList: res.filteredCoffeeList,
+          filteredCoffeeCount: res.filteredCoffeeCount,
+          show: true,
+        })
+      );
+  }
+
   LoadMoreItems = () => {
     const { offset, orderBy, filteredCoffeeList } = this.state;
     const nextOffset = offset + 1;
     let query = this.props.location.search;
     if (query === "") query = "?";
-    fetch(
-      `${KM_URL}/products/coffees${query}page=${nextOffset}&order_by=${orderBy}`
-    )
+    fetch(`${APIProductList}${query}page=${nextOffset}&order_by=${orderBy}`)
       .then((res) => res.json())
       .then((res) => {
         this.setState({
@@ -37,22 +92,10 @@ class CardList extends Component {
     this.setState({ offset: nextOffset });
   };
 
-  componentDidMount() {
-    fetch(`${KM_URL}/products/coffees`)
-      .then((res) => res.json())
-      .then((res) =>
-        this.setState({
-          filteredCoffeeList: res.filteredCoffeeList,
-          filteredCoffeeCount: res.filteredCoffeeCount,
-          show: true,
-        })
-      );
-  }
-
   showValue = (e) => {
     let query = this.props.location.search;
     if (query === "") query = "?";
-    fetch(`${KM_URL}/products/coffees${query}order_by=${e.target.value}`)
+    fetch(`${APIProductList}${query}order_by=${e.target.value}`)
       .then((res) => res.json())
       .then((res) => {
         this.setState({
@@ -68,7 +111,7 @@ class CardList extends Component {
   componentDidUpdate(prevProps) {
     console.log(this.props.location.search);
     if (prevProps.location.search !== this.props.location.search) {
-      fetch(`${KM_URL}/products/coffees${this.props.location.search}`)
+      fetch(`${APIProductList}${this.props.location.search}`)
         .then((res) => res.json())
         .then((res) => {
           this.setState({
@@ -84,7 +127,7 @@ class CardList extends Component {
   render() {
     const { filteredCoffeeList, filteredCoffeeCount } = this.state;
     return (
-      <main className="CardList">
+      <CardListBox>
         <div className="rightBox">
           <div>
             <span>{filteredCoffeeCount}&nbsp;</span>
@@ -120,9 +163,8 @@ class CardList extends Component {
             <button onClick={this.LoadMoreItems}>LOAD MORE</button>
           </div>
         )}
-      </main>
+      </CardListBox>
     );
   }
 }
-
 export default withRouter(CardList);

@@ -1,5 +1,62 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import styled, { css } from "styled-components";
+
+const fontMixed = css`
+  font-family: Fira sans;
+  font-size: 14px;
+`;
+
+const Item = styled.div`
+  width: 280px;
+  min-height: 80px;
+  border-bottom: ${({ theme }) => theme.border};
+  .mainCategory {
+    min-height: 80px;
+    .toggleBtn {
+      ${({ theme }) => theme.spacebetween};
+      align-items: center;
+      width: 100%;
+      height: 80px;
+      cursor: pointer;
+    }
+  }
+  span {
+    ${fontMixed}
+  }
+  img {
+    width: 13px;
+    height: 13px;
+  }
+
+  .options {
+    ${({ theme }) => theme.flexcolumn};
+    .option {
+      display: flex;
+      align-items: center;
+      height: 50px;
+      padding: 15px;
+
+      input {
+        width: 30px;
+        height: 20px;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+
+      label {
+        font-size: 13px;
+      }
+    }
+    .seeAllBox {
+      height: 50px;
+      color: ${({ theme }) => theme.colors.darkgrey};
+      ${fontMixed};
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+`;
 
 class Option extends Component {
   constructor(props) {
@@ -110,7 +167,7 @@ class Option extends Component {
     const { isClicked, filterOptions, hidden } = this.state;
     const { name } = this.props;
     return (
-      <div className="item">
+      <Item>
         <div className="mainCategory">
           {!isClicked && (
             <div className="toggleBtn" onClick={this.clickHandle}>
@@ -151,7 +208,7 @@ class Option extends Component {
             )}
           </div>
         )}
-      </div>
+      </Item>
     );
   }
 }

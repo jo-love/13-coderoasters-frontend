@@ -1,22 +1,28 @@
-import React, { Component } from "react";
+import React from "react";
 import Header from "./Components/Header/Header";
 import Category from "./Components/Category/Category";
 import CardList from "./Components/CardList/CardList";
-import "./ProductList.scss";
+import styled from "styled-components";
 
-class ProductList extends Component {
-  render() {
-    console.log("mount!");
-    return (
-      <div className="productList">
-        <Header />
-        <div className="mainSection">
-          <Category />
-          <CardList />
-        </div>
-      </div>
-    );
+const Wrapper = styled.div`
+  margin-top: 55px;
+  .mainSection {
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
   }
-}
+`;
+
+const ProductList = () => {
+  return (
+    <Wrapper>
+      <Header />
+      <div className="mainSection">
+        <Category />
+        <CardList />
+      </div>
+    </Wrapper>
+  );
+};
 
 export default ProductList;

@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 import Option from "./Option";
 import { withRouter } from "react-router-dom";
-import { KM_URL } from "../../../../../src/config";
+import { APIProductOptions } from "../../../../../src/config";
+import styled from "styled-components";
 
+const ItemContainer = styled.div`
+  ${({ theme }) => theme.flexcolumn};
+  justify-items: center;
+  width: 300px;
+  border-top: ${({ theme }) => theme.border};
+`;
 class AsideItems extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +20,7 @@ class AsideItems extends Component {
   }
 
   componentDidMount() {
-    fetch(`${KM_URL}/products/options`)
+    fetch(`${APIProductOptions}`)
       .then((res) => res.json())
       .then((res) => this.setState({ menuList: res }));
   }
@@ -42,8 +49,8 @@ class AsideItems extends Component {
   render() {
     const { menuList } = this.state;
     return (
-      <div className="AsideItem">
-        <div className="itemContainer">
+      <div>
+        <ItemContainer>
           {menuList &&
             menuList.foundOptions.map((list) => (
               <Option
@@ -54,7 +61,7 @@ class AsideItems extends Component {
                 deleteQuery={this.deleteQuery}
               />
             ))}
-        </div>
+        </ItemContainer>
       </div>
     );
   }

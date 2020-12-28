@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../Login/Login.scss";
 import { Link, withRouter } from "react-router-dom";
-import { KM_URL } from "../../config";
+import { APILogin } from "../../config";
 import GoogleLogin from "react-google-login";
 
 export class Login extends Component {
@@ -12,10 +12,8 @@ export class Login extends Component {
       firstNameValue: "",
       lastNameValue: "",
       emailValue: "",
-      // isEmailValid: false,(validation 구현을 위해 남겨놓은 주석입니다.)
       mobileNumValue: "",
       pwValue: "",
-      // isPwValueValid: false,(validation 구현을 위해 남겨놓은 주석입니다.)
     };
   }
 
@@ -26,17 +24,6 @@ export class Login extends Component {
   handleInputValue = (inValue) => {
     this.setState({ [inValue.target.name]: inValue.target.value });
   };
-  //validation 구현을 위해 남겨놓은 주석입니다.
-  // valiDateEmail = (emailValue) => {
-  //   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-  //   if (emailValue.match(re)) {
-  //     this.setState({
-  //       isEmailValid: true,
-  //       emailValue,
-  //     });
-  //   }
-  // };
 
   handleSignUpClick = () => {
     const {
@@ -47,7 +34,7 @@ export class Login extends Component {
       pwValue,
     } = this.state;
 
-    fetch(`${KM_URL}/users/signup`, {
+    fetch(`${APILogin}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +61,7 @@ export class Login extends Component {
   handleLogInClick = (e) => {
     const { emailValue, pwValue } = this.state;
 
-    fetch(`${KM_URL}/users/login`, {
+    fetch(`${APILogin}/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -96,7 +83,7 @@ export class Login extends Component {
   };
   responseGoogle = (response) => {
     console.log(response);
-    fetch(`${KM_URL}/users/googlelogin`, {
+    fetch(`${APILogin}/users/googlelogin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
