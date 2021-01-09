@@ -1,8 +1,112 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../CardList/Card";
 import { APIProductList } from "../../../../../src/config";
-import { withRouter } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
+
+const CardList = () => {
+  const [filteredCoffeeList, setFilteredCoffeeList] = useState([]);
+  const [filteredCoffeeCount, setFilteredCoffeeCount] = useState(0);
+  const [offset, setOffset] = useState(1);
+  const [orderBy, setOrderBy] = useState("");
+  const [show, setShow] = useState(true);
+  const [url, setUrl] = useState("");
+  const location = useLocation();
+
+  useEffect(() => {
+    fetch(`${APIProductList}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setFilteredCoffeeList(res.filteredCoffeeList);
+        setFilteredCoffeeCount(res.filteredCoffeeCount);
+        setShow(true);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log(location.search);
+    if (url !== location.search) {
+      fetch(`${APIProductList}${location.search}`)
+        .then((res) => res.json())
+        .then((res) => {
+          setFilteredCoffeeList(res.filteredCoffeeList);
+          setFilteredCoffeeCount(res.filteredCoffeeCount);
+          setOffset(1);
+          setShow(res.filteredCoffeeList.length < 18 ? false : true);
+          console.log("count", res.filteredCoffeeCount);
+        });
+    }
+    setUrl(location.search);
+  }, [location.search, url]);
+
+  const loadMore = () => {
+    const nextOffset = offset + 1;
+    let query = location.search;
+    if (query === "") query = "?";
+    fetch(`${APIProductList}${query}page=${nextOffset}&order_by=${orderBy}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setFilteredCoffeeList([
+          ...filteredCoffeeList,
+          ...res.filteredCoffeeList,
+        ]);
+        setShow(res.filteredCoffeeList.length < 18 ? false : true);
+      });
+  };
+  const showValue = (e) => {
+    let query = location.search;
+    if (query === "") query = "?";
+    fetch(`${APIProductList}${query}order_by=${e.target.value}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setFilteredCoffeeList(res.filteredCoffeeList);
+        setFilteredCoffeeCount(res.setFilteredCoffeeCount);
+        setOrderBy(e.target.value);
+        setOffset(1);
+        setShow(res.filteredCoffeeList.length < 18 ? false : true);
+      });
+  };
+
+  return (
+    <CardListBox>
+      <div className="rightBox">
+        <div>
+          <span>{filteredCoffeeCount}&nbsp;</span>
+          <span>coffees</span>
+        </div>
+        <div className="rightText">
+          <label className="boldName">Sort</label>
+          <select onChange={showValue}>
+            <option value="popularity">Most Popular</option>
+            <option value="new">New</option>
+            <option value="price">Highest Price</option>
+            <option value="-price">Lowest Price</option>
+          </select>
+        </div>
+      </div>
+      <div className="listSection">
+        {filteredCoffeeList.map((product) => {
+          return (
+            <Card
+              id={product.id}
+              img={product.image_url}
+              taste={product.coffees.taste}
+              company={product.company}
+              name={product.name}
+              price={product.price}
+              key={product.id}
+            />
+          );
+        })}
+      </div>
+      {show && (
+        <div className="btnWrapper">
+          <button onClick={loadMore}>LOAD MORE</button>
+        </div>
+      )}
+    </CardListBox>
+  );
+};
 
 const CardListBox = styled.main`
   width: 75%;
@@ -49,122 +153,4 @@ const CardListBox = styled.main`
     }
   }
 `;
-class CardList extends Component {
-  constructor() {
-    super();
-    this.state = {
-      filteredCoffeeList: [],
-      offset: 1,
-      orderBy: "",
-      show: true,
-      filteredCoffeeCount: 0,
-    };
-  }
-
-  componentDidMount() {
-    fetch(`${APIProductList}`)
-      .then((res) => res.json())
-      .then((res) =>
-        this.setState({
-          filteredCoffeeList: res.filteredCoffeeList,
-          filteredCoffeeCount: res.filteredCoffeeCount,
-          show: true,
-        })
-      );
-  }
-
-  LoadMoreItems = () => {
-    const { offset, orderBy, filteredCoffeeList } = this.state;
-    const nextOffset = offset + 1;
-    let query = this.props.location.search;
-    if (query === "") query = "?";
-    fetch(`${APIProductList}${query}page=${nextOffset}&order_by=${orderBy}`)
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({
-          filteredCoffeeList: [
-            ...filteredCoffeeList,
-            ...res.filteredCoffeeList,
-          ],
-          show: res.filteredCoffeeList.length < 18 ? false : true,
-        });
-      });
-    this.setState({ offset: nextOffset });
-  };
-
-  showValue = (e) => {
-    let query = this.props.location.search;
-    if (query === "") query = "?";
-    fetch(`${APIProductList}${query}order_by=${e.target.value}`)
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({
-          filteredCoffeeList: res.filteredCoffeeList,
-          filteredCoffeeCount: res.filteredCoffeeCount,
-          orderBy: e.target.value,
-          offset: 1,
-          show: res.filteredCoffeeList.length < 18 ? false : true,
-        });
-      });
-  };
-
-  componentDidUpdate(prevProps) {
-    console.log(this.props.location.search);
-    if (prevProps.location.search !== this.props.location.search) {
-      fetch(`${APIProductList}${this.props.location.search}`)
-        .then((res) => res.json())
-        .then((res) => {
-          this.setState({
-            filteredCoffeeCount: res.filteredCoffeeCount,
-            filteredCoffeeList: res.filteredCoffeeList,
-            offset: 1,
-            show: res.filteredCoffeeList.length < 18 ? false : true,
-          });
-        });
-    }
-  }
-
-  render() {
-    const { filteredCoffeeList, filteredCoffeeCount } = this.state;
-    return (
-      <CardListBox>
-        <div className="rightBox">
-          <div>
-            <span>{filteredCoffeeCount}&nbsp;</span>
-            <span>coffees</span>
-          </div>
-          <div className="rightText">
-            <label className="boldName">Sort</label>
-            <select onChange={this.showValue}>
-              <option value="popularity">Most Popular</option>
-              <option value="new">New</option>
-              <option value="price">Highest Price</option>
-              <option value="-price">Lowest Price</option>
-            </select>
-          </div>
-        </div>
-        <div className="listSection">
-          {filteredCoffeeList.map((product) => {
-            return (
-              <Card
-                id={product.id}
-                img={product.image_url}
-                taste={product.coffees.taste}
-                company={product.company}
-                name={product.name}
-                price={product.price}
-                key={product.id}
-              />
-            );
-          })}
-        </div>
-        {this.state.show && (
-          <div className="btnWrapper">
-            <button onClick={this.LoadMoreItems}>LOAD MORE</button>
-          </div>
-        )}
-      </CardListBox>
-    );
-  }
-}
-export default withRouter(CardList);
+export default CardList;

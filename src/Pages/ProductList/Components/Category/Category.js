@@ -1,7 +1,28 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import AsideItems from "./AsideItems";
 import styled from "styled-components";
+
+const Category = () => {
+  const history = useHistory();
+
+  const resetAllItems = () => {
+    history.push("/productlist");
+    window.location.reload();
+  };
+
+  return (
+    <CategoryBox>
+      <div className="leftBox">
+        <span className="boldName">Filter</span>
+        <span className="clearBtn" onClick={resetAllItems}>
+          Clear
+        </span>
+      </div>
+      <AsideItems />
+    </CategoryBox>
+  );
+};
 
 const CategoryBox = styled.aside`
   width: 30%;
@@ -29,26 +50,4 @@ const CategoryBox = styled.aside`
     }
   }
 `;
-
-class Category extends Component {
-  resetAllItems = () => {
-    this.props.history.push("/productlist");
-    window.location.reload();
-  };
-
-  render() {
-    return (
-      <CategoryBox>
-        <div className="leftBox">
-          <span className="boldName">Filter</span>
-          <span className="clearBtn" onClick={this.resetAllItems}>
-            Clear
-          </span>
-        </div>
-        <AsideItems />
-      </CategoryBox>
-    );
-  }
-}
-
-export default withRouter(Category);
+export default Category;

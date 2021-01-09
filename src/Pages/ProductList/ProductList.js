@@ -4,15 +4,6 @@ import Category from "./Components/Category/Category";
 import CardList from "./Components/CardList/CardList";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
-  margin-top: 55px;
-  .mainSection {
-    display: flex;
-    width: 90%;
-    margin: 0 auto;
-  }
-`;
-
 const ProductList = () => {
   return (
     <Wrapper>
@@ -24,5 +15,14 @@ const ProductList = () => {
     </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  margin-top: 55px;
+  .mainSection {
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+  }
+`;
 
 export default ProductList;

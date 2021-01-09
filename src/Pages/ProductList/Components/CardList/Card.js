@@ -1,6 +1,25 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+
+const Card = ({ img, taste, company, name, price, id }) => {
+  const history = useHistory();
+  return (
+    <CardContainer onClick={() => history.push(`/ProductDetails/${id}`)}>
+      <div className="imgContainer">
+        <img src={img} alt="productImg" />
+      </div>
+      <div className="taste">
+        <h2>{taste}</h2>
+      </div>
+      <div className="productInfo">
+        <h3 className="companyName">{company}</h3>
+        <h2>{name}</h2>
+        <h3 className="price">{`$${price}`}</h3>
+      </div>
+    </CardContainer>
+  );
+};
 
 const CardContainer = styled.div`
   ${({ theme }) => theme.flexcolumn};
@@ -63,28 +82,4 @@ const CardContainer = styled.div`
     }
   
 `;
-
-class Card extends Component {
-  render() {
-    const { img, taste, company, name, price, id } = this.props;
-    return (
-      <CardContainer
-        onClick={() => this.props.history.push(`/ProductDetails/${id}`)}
-      >
-        <div className="imgContainer">
-          <img src={img} alt="product_pic" />
-        </div>
-        <div className="taste">
-          <h2>{taste}</h2>
-        </div>
-        <div className="productInfo">
-          <h3 className="companyName">{company}</h3>
-          <h2>{name}</h2>
-          <h3 className="price">{`$${price}`}</h3>
-        </div>
-      </CardContainer>
-    );
-  }
-}
-
-export default withRouter(Card);
+export default Card;
